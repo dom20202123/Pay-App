@@ -4,6 +4,10 @@ import csv
 
 
 class Logic(QMainWindow, Ui_Pay_App):
+    '''
+    Sets up the function by linking the buttons to their functions and hiding half of the widgets to make it look more
+    clean
+    '''
     def __init__(self) -> None:
         super().__init__()
         self.setupUi(self)
@@ -24,6 +28,10 @@ class Logic(QMainWindow, Ui_Pay_App):
 
 
     def pay(self) -> None:
+        '''
+        Calculates the pay based off of the hourly rate and the hours worked by multiplying
+        Also has exception handling for the case if any symbol, letters, or a negative number was put in
+        '''
 
         try:
             self.hourly = float(self.Hourly_Input.text())
@@ -55,6 +63,26 @@ class Logic(QMainWindow, Ui_Pay_App):
 
 
     def total(self) -> None:
+        '''
+        Calculates the taxes by looking into taxes.csv and federal_tax.csv for the federal tax
+        Then adds the values returned to their labels
+        Then finally calculates net income by subtracting all taxes by the gross income
+        gross_income : Value that holds the calculation from the pay function
+        state: Input used for finding the state tax
+        social_security_rate : Rate for social security
+        social_security_total: Total of social security after multiplying rate and gross
+        medicare_rate : Rate for medicare
+        medicare_total : Total of medicare after multiplying rate and gross
+        state_rate : Rate of tax found from tax.csv and using variable state as its key
+        state_total : Total of state tax after multiplying rate and gross
+        federal_tax : Rate of tax found by gross income
+        federal_total : Total of federal tax after multiplying tax and gross
+        married_single_status : Status found off of radio buttons and helps determine federal tax
+        state_found : True or False to verify if the state was found or not
+        min_income : Minimum income to be in a federal tax bracket
+        max_income : Maximum income to be in a federal tax bracket
+
+        '''
 
         gross_income = float(self.Gross_Input.text())
         state = self.State_Input.text().strip().lower()
