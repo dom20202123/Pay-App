@@ -10,22 +10,41 @@ class Logic(QMainWindow, Ui_Pay_App):
 
         self.Pay_Button.clicked.connect(lambda : self.pay())
         self.Total_Button.clicked.connect(lambda : self.total())
+        self.Gross_label.hide()
+        self.Medicare_Label.hide()
+        self.State_Tax_Label.hide()
+        self.Federal_Label.hide()
+        self.Net_Label.hide()
+        self.Social_Security_label.hide()
+        self.Total_Button.hide()
 
 
 
     def pay(self):
-        self.hourly = float(self.Hourly_Input.text())
-        self.hours = float(self.Hours_Input.text())
-        gross_income = 0
+
         try:
+            self.hourly = float(self.Hourly_Input.text())
+            self.hours = float(self.Hours_Input.text())
+            gross_income = 0
             if (self.hourly <= 0) or (self.hours <= 0):
                 raise ValueError('Amount must be positive')
                 raise ValueError('Amount must be positive')
+
+            gross_income = self.hours * self.hourly
+            self.Gross_Input.setText(f'{gross_income:.2f}')
+            self.Gross_label.show()
+            self.Medicare_Label.show()
+            self.State_Tax_Label.show()
+            self.Federal_Label.show()
+            self.Net_Label.show()
+            self.Social_Security_label.show()
+            self.Total_Button.show()
+
         except (ValueError, TypeError):
             self.feedback.setText('Please enter a valid positive number')
 
-        gross_income = self.hours * self.hourly
-        self.Gross_Input.setText(f'{gross_income:.2f}')
+
+
 
 
     def total(self):
