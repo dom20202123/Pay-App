@@ -1,0 +1,15 @@
+Minimum,Maximum,Marital_status,Tax_rate
+0,423.0,single,0.1
+424,1716.0,single,0.12
+1717,3660.0,single,0.22
+3661,7004.0,single,0.24
+7005,8894.0,single,0.32
+8895,22235.0,single,0.35
+22236,inf,single,0.37
+0,846.0,married,0.1
+847,3448.0,married,0.12
+3449,7337.0,married,0.22
+7338,14008.0,married,0.24
+14009,17788.0,married,0.32
+17789,26606.0,married,0.35
+26607,inf,married,0.37

@@ -17,10 +17,13 @@ class Logic(QMainWindow, Ui_Pay_App):
         self.Net_Label.hide()
         self.Social_Security_label.hide()
         self.Total_Button.hide()
+        self.Martial_Status_Label.hide()
+        self.Married_Button.hide()
+        self.Single_Button.hide()
 
 
 
-    def pay(self):
+    def pay(self) -> None:
 
         try:
             self.hourly = float(self.Hourly_Input.text())
@@ -39,6 +42,10 @@ class Logic(QMainWindow, Ui_Pay_App):
             self.Net_Label.show()
             self.Social_Security_label.show()
             self.Total_Button.show()
+            self.Martial_Status_Label.show()
+            self.Married_Button.show()
+            self.Single_Button.show()
+
 
         except (ValueError, TypeError):
             self.feedback.setText('Please enter a valid positive number')
@@ -47,7 +54,7 @@ class Logic(QMainWindow, Ui_Pay_App):
 
 
 
-    def total(self):
+    def total(self) -> None:
 
         gross_income = float(self.Gross_Input.text())
         state = self.State_Input.text().strip().lower()
@@ -59,6 +66,9 @@ class Logic(QMainWindow, Ui_Pay_App):
         state_rate = 0
         state_total = 0
         net_income = 0
+        federal_tax = 0
+        federal_total = 0
+        married_single_status = ''
         state_found = False
 
         with open('taxes.csv', 'r') as csv_file:
@@ -73,14 +83,35 @@ class Logic(QMainWindow, Ui_Pay_App):
             if state_found == False:
                 self.feedback.setText('State not found')
 
+        if self.Single_Button.isChecked():
+            married_single_status = 'single'
+        elif self.Married_Button.isChecked():
+            married_single_status = 'married'
+        else:
+            self.feedback.setText(f'Please select a martial status')
+            return
+
+        with open('federal_tax_yearly.csv', 'r') as csv_file:
+            reader = csv.DictReader(csv_file)
+            for row in reader:
+                min_income = float(row['Minimum'])
+                max_income = float(row['Maximum'])
+                if (row['Marital_status'].lower() == married_single_status) and (min_income <= gross_income <=
+                max_income):
+                    federal_tax = float(row['Tax_rate'])
+                    federal_total = federal_tax * gross_income
+
+
+
             social_security_total = social_security_rate * gross_income
             medicare_total = medicare_rate * gross_income
             state_total = state_rate * gross_income
-            net_income = gross_income - social_security_total - medicare_total - state_total
+            net_income = gross_income - social_security_total - medicare_total - state_total - federal_total
 
             self.Social_Security_Input.setText(f'${social_security_total:.2f}')
             self.Medicare_Input.setText(f'${medicare_total:.2f}')
             self.State_Tax_Input.setText(f'${state_total:.2f}')
+            self.Federal_Input.setText(f'${federal_total:.2f}')
             self.Net_Input.setText(f'${net_income:.2f}')
 
 
