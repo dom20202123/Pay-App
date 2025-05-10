@@ -119,7 +119,7 @@ class Logic(QMainWindow, Ui_Pay_App):
             self.feedback.setText(f'Please select a martial status')
             return
 
-        with open('federal_tax_yearly.csv', 'r') as csv_file:
+        with open('federal_tax.csv', 'r') as csv_file:
             reader = csv.DictReader(csv_file)
             for row in reader:
                 min_income = float(row['Minimum'])
