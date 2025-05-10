@@ -1,4 +1,4 @@
-state_tax,social_security,medicare,state
+state,social_security,medicare,state_rate
 Alabama,0.062,0.0145,0.05
 Alaska,0.062,0.0145,0.0
 Arizona,0.062,0.0145,0.025

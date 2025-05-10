@@ -40,16 +40,18 @@ class Logic(QMainWindow, Ui_Pay_App):
         state_rate = 0
         state_total = 0
         net_income = 0
+        state_found = False
 
         with open('taxes.csv', 'r') as csv_file:
             reader = csv.DictReader(csv_file)
             for row in reader:
-                if row['state'] == state.lower():
+                if row['state'].strip().lower() == state:
                     social_security_rate = float(row['social_security'])
                     medicare_rate = float(row['medicare'])
-                    state_rate = float(row['state'])
+                    state_rate = float(row['state_rate'])
+                    state_found = True
 
-            if social_security_rate == 0:
+            if state_found == False:
                 self.feedback.setText('State not found')
 
             social_security_total = social_security_rate * gross_income
